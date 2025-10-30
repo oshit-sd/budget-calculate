@@ -7,9 +7,8 @@ const routes = [
     component: () => import('@views/Dashboard.vue'),
   },
   {
-    path: '/budget-calculator',
-    name: 'budget-calculator',
-    meta: { title: 'Budget Calculator' },
+    path: '/budget-calculate',
+    name: 'budget-calculate',
     component: () => import('@views/BudgetCalculator.vue'),
   },
   {

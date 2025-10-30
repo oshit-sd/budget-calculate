@@ -23,10 +23,10 @@
           </router-link>
 
           <router-link
-            :to="{ name: 'budget-calculator' }"
-            :class="linkClass('budget-calculator')"
+            :to="{ name: 'budget-calculate' }"
+            :class="linkClass('budget-calculate')"
           >
-            Budget Calculator
+            Budget Calculate
           </router-link>
 
           <router-link :to="{ name: 'reports' }" :class="linkClass('reports')">

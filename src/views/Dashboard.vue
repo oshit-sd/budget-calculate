@@ -3,11 +3,14 @@
     <!-- Header -->
     <div class="flex items-center justify-between">
       <h1 class="text-3xl font-bold text-gray-800">Welcome to Estimatica</h1>
-      <button
-        class="bg-gradient-to-r from-violet-500 to-purple-600 text-white px-5 py-2 rounded-xl shadow-lg hover:scale-105 transition transform"
+
+      <router-link
+        :to="{ name: 'budget-calculate' }"
+        class="b bg-violet-800 text-white px-5 py-2 rounded-xl shadow-lg hover:scale-105 transition transform flex items-center gap-2"
       >
-        New Project Estimate
-      </button>
+        <Plus class="w-5 h-5" />
+        <span>New Budget Calculate</span>
+      </router-link>
     </div>
 
     <!-- Stats Cards -->
@@ -128,7 +131,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { BarChart, Users, FileText, DollarSign } from "lucide-vue-next";
+import { BarChart, Users, FileText, DollarSign, Plus } from "lucide-vue-next";
 
 const recentProjects = ref([
   {
