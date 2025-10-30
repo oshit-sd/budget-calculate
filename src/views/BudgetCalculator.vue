@@ -1,43 +1,59 @@
 <template>
   <div>
-    <!-- Header -->
-    <div class="bg-white rounded-lg shadow-sm p-8 mb-6">
-      <h1 class="text-3xl font-bold text-center text-slate-900 mb-2">
-        Cost Breakdown for Item A
-      </h1>
-      <p class="text-center text-lg text-slate-600 font-medium">
-        Development of Bird Watch Game
-      </p>
-    </div>
-
     <!-- Table Container -->
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <!-- Header -->
+      <div class="rounded-lg p-6">
+        <!-- Main Title -->
+        <div class="text-center">
+          <input
+            v-model="mainTitle"
+            type="text"
+            class="text-xl font-bold text-slate-900 w-full text-center bg-transparent focus:ring-2 focus:ring-violet-500 rounded-md"
+          />
+        </div>
+
+        <!-- Subtitle -->
+        <div class="text-center">
+          <input
+            v-model="subTitle"
+            type="text"
+            class="text-md text-slate-600 font-medium w-full text-center bg-transparent focus:ring-2 focus:ring-violet-500 rounded-md"
+          />
+        </div>
+      </div>
+
+      <!-- table sections -->
       <div class="overflow-x-auto">
         <table class="w-full border-collapse">
           <thead>
-            <tr class="bg-slate-800 text-white">
-              <th class="px-4 py-3 text-left text-sm font-semibold">Sl.</th>
-              <th class="px-4 py-3 text-left text-sm font-semibold">
+            <tr class="bg-gray-200 text-slate-800">
+              <th class="px-4 py-2 text-left text-sm font-bold uppercase">
+                Sl.
+              </th>
+              <th class="px-4 py-2 text-left text-sm font-bold uppercase">
                 Departments
               </th>
-              <th class="px-4 py-3 text-left text-sm font-semibold">Heads</th>
-              <th class="px-4 py-3 text-center text-sm font-semibold">
+              <th class="px-4 py-2 text-left text-sm font-bold uppercase">
+                Heads
+              </th>
+              <th class="px-4 py-2 text-center text-sm font-bold uppercase">
                 No. of Unit
               </th>
-              <th class="px-4 py-3 text-center text-sm font-semibold">
+              <th class="px-4 py-2 text-center text-sm font-bold uppercase">
                 No. of Days
               </th>
-              <th class="px-4 py-3 text-center text-sm font-semibold">
+              <th class="px-4 py-2 text-center text-sm font-bold uppercase">
                 Per Day Cost
               </th>
-              <th class="px-4 py-3 text-center text-sm font-semibold">
+              <th class="px-4 py-2 text-center text-sm font-bold uppercase">
                 Unit Cost
               </th>
-              <th class="px-4 py-3 text-center text-sm font-semibold">
+              <th class="px-4 py-2 text-center text-sm font-bold uppercase">
                 Total Cost
               </th>
-              <th class="px-4 py-3 text-center text-sm font-semibold"></th>
-              <th class="px-4 py-3 text-center text-sm font-semibold"></th>
+              <th class="px-4 py-2 text-center text-sm font-semibold"></th>
+              <th class="px-4 py-2 text-center text-sm font-semibold"></th>
             </tr>
           </thead>
 
@@ -55,7 +71,7 @@
                 <td
                   v-if="mIndex === 0"
                   :rowspan="detail.members.length"
-                  class="px-4 py-3 text-sm font-medium text-slate-900 text-center align-middle border border-slate-200"
+                  class="px-4 py-1 text-sm font-medium text-slate-900 text-center align-middle border border-slate-200"
                 >
                   {{ deptIndex + 1 }}
                 </td>
@@ -64,13 +80,13 @@
                 <td
                   v-if="mIndex === 0"
                   :rowspan="detail.members.length"
-                  class="px-4 py-3 text-sm text-slate-700 align-middle border border-slate-200"
+                  class="px-4 py-1 text-sm text-slate-700 align-middle border border-slate-200"
                 >
                   <select
                     v-model="detail.department_id"
                     class="w-full bg-transparent text-slate-900 font-medium focus:ring-2 focus:ring-violet-500 rounded-md"
                   >
-                    <option value="">Select Department</option>
+                    <option value="">--Select Department--</option>
                     <option
                       v-for="dept in departments"
                       :key="dept.id"
@@ -83,13 +99,13 @@
 
                 <!-- Member Dropdown -->
                 <td
-                  class="px-4 py-3 text-sm text-slate-700 border border-slate-200"
+                  class="px-4 py-1 text-sm text-slate-700 border border-slate-200"
                 >
                   <select
                     v-model="member.user_id"
                     class="w-full bg-transparent text-slate-900 font-medium focus:ring-2 focus:ring-violet-500 rounded-md"
                   >
-                    <option value="">Select Member</option>
+                    <option value="">--Select Head--</option>
                     <option
                       v-for="des in getDesignations(detail.department_id)"
                       :key="des.head"
@@ -101,7 +117,7 @@
                 </td>
 
                 <!-- Units -->
-                <td class="px-2 py-3 text-center border border-slate-200">
+                <td class="px-2 py-1 text-center border border-slate-200">
                   <input
                     type="number"
                     v-model.number="member.unit"
@@ -112,7 +128,7 @@
                 </td>
 
                 <!-- Days -->
-                <td class="px-2 py-3 text-center border border-slate-200">
+                <td class="px-2 py-1 text-center border border-slate-200">
                   <input
                     type="number"
                     v-model.number="member.days"
@@ -123,7 +139,7 @@
                 </td>
 
                 <!-- Per Day Cost -->
-                <td class="px-2 py-3 text-center border border-slate-200">
+                <td class="px-2 py-1 text-center border border-slate-200">
                   <input
                     type="number"
                     v-model.number="member.per_day_cost"
@@ -135,7 +151,7 @@
 
                 <!-- Unit Cost -->
                 <td
-                  class="px-4 py-3 text-sm text-center text-slate-800 border border-slate-200"
+                  class="px-4 py-1 text-sm text-center text-slate-800 border border-slate-200"
                 >
                   {{ member.unit_cost || "-" }}
                 </td>
@@ -144,14 +160,14 @@
                 <td
                   v-if="mIndex === 0"
                   :rowspan="detail.members.length"
-                  class="px-4 py-3 text-sm text-center text-slate-800 border border-slate-200"
+                  class="px-4 py-1 text-sm text-center text-slate-800 border border-slate-200"
                 >
                   {{ detail.total_cost || "-" }}
                 </td>
 
                 <!-- Actions -->
                 <td
-                  class="px-4 py-3 text-center border border-slate-200 text-sm"
+                  class="px-4 py-1 text-center border border-slate-200 text-sm"
                 >
                   <button
                     v-if="detail.members.length > 1"
@@ -173,7 +189,7 @@
                 <td
                   v-if="mIndex === 0"
                   :rowspan="detail.members.length"
-                  class="px-4 py-3 text-center text-sm border border-slate-200"
+                  class="px-4 py-1 text-center text-sm border border-slate-200"
                 >
                   <button
                     v-if="formData.details.length > 1"
@@ -191,18 +207,27 @@
                   </button>
                 </td>
               </tr>
+
+              <tr>
+                <td colspan="20" class="py-2"></td>
+              </tr>
             </template>
           </tbody>
         </table>
       </div>
-    </div>
 
-    <!-- Deliverables -->
-    <div class="bg-white rounded-lg shadow-sm p-6 mt-6">
-      <p class="text-sm text-slate-700">
-        <span class="font-semibold text-slate-900">Deliverables:</span>
-        <span class="ml-2">{{ deliverables }}</span>
-      </p>
+      <!-- Deliverables -->
+      <div class="p-6">
+        <div class="flex items-start space-x-4">
+          <span class="font-semibold text-slate-900 w-20 mt-1"
+            >Deliverables:</span
+          >
+          <textarea
+            v-model="deliverables"
+            class="flex-1 bg-transparent focus:ring-2 focus:ring-violet-500 rounded-md resize-none p-1 text-slate-700"
+          ></textarea>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -212,6 +237,11 @@ export default {
   name: "BudgetCalculator",
   data() {
     return {
+      mainTitle: "Mobile Game Development Budget Calculator",
+      subTitle: "Estimate your mobile game development costs easily",
+      isEditingTitle: false,
+      isEditingSubtitle: false,
+
       deliverables:
         "Along with the mobile game (Android, iOS) there will be an admin panel",
 
@@ -219,16 +249,21 @@ export default {
         { id: 1, name: "Managing & Planning Department" },
         { id: 2, name: "Art Department" },
         { id: 3, name: "Development Department" },
+        { id: 4, name: "Others" },
       ],
-
       designations: [
         { head: "Project Manager", department_id: 1 },
         { head: "Game Designer", department_id: 1 },
         { head: "UI/UX Designer", department_id: 2 },
         { head: "2D Game Artist", department_id: 2 },
         { head: "Spine Animator", department_id: 2 },
-        { head: "Unity Developer", department_id: 3 },
-        { head: "Backend Developer", department_id: 3 },
+        { head: "Technical Lead", department_id: 3 },
+        { head: "Sr. Game Developer", department_id: 3 },
+        { head: "Mid Game Developer", department_id: 3 },
+        { head: "Sr. Backend Developer", department_id: 3 },
+        { head: "Sr. Frontend Developer", department_id: 3 },
+        { head: "Sr. QA Engineer", department_id: 4 },
+        { head: "Sr. Sound Engineer", department_id: 4 },
       ],
 
       formData: {
@@ -255,6 +290,7 @@ export default {
     getDesignations(department_id) {
       return this.designations.filter((d) => d.department_id === department_id);
     },
+
     calculateTotal(dept, member) {
       member.unit_cost =
         (member.unit || 0) * (member.days || 0) * (member.per_day_cost || 0);
@@ -265,32 +301,38 @@ export default {
       );
     },
 
+    // Add / Remove Departments
     addDepartment() {
-      this.formData.details.push({
+      this.formData.details.push(this.createDepartment());
+    },
+    removeDepartment(index) {
+      this.formData.details.splice(index, 1);
+    },
+
+    // Add / Remove Members
+    addMember(deptIndex) {
+      this.formData.details[deptIndex].members.push(this.createMember());
+    },
+    removeMember(deptIndex, mIndex) {
+      this.formData.details[deptIndex].members.splice(mIndex, 1);
+    },
+
+    // Factory functions for consistent structure
+    createDepartment() {
+      return {
         department_id: "",
         total_cost: 0,
-        members: [
-          {
-            user_id: "",
-            unit: 0,
-            days: 0,
-            per_day_cost: 0,
-            unit_cost: 0,
-          },
-        ],
-      });
+        members: [this.createMember()],
+      };
     },
-    addMember(deptIndex) {
-      this.formData.details[deptIndex].members.push({
+    createMember() {
+      return {
         user_id: "",
         unit: 0,
         days: 0,
         per_day_cost: 0,
         unit_cost: 0,
-      });
-    },
-    removeMember(deptIndex, mIndex) {
-      this.formData.details[deptIndex].members.splice(mIndex, 1);
+      };
     },
   },
 };
