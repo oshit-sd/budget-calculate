@@ -1,5 +1,27 @@
 <template>
   <div>
+    <div class="text-end mb-3">
+      <ExcelExport
+        :details="formData.details"
+        :departments="departments"
+        :fields="fields"
+        :header="[mainTitle, subTitle]"
+        :deliverables="deliverables"
+        :totals="totals"
+        file-name="budget-calculation.xlsx"
+      >
+        ⬇ Download Budget Excel
+      </ExcelExport>
+    </div>
+
+    <!-- <ExcelExportXLSX
+      :details="formData.details"
+      :departments="departments"
+      file-name="mobile_game_budget.xlsx"
+    >
+      ⬇ Download Budget Excel
+    </ExcelExportXLSX> -->
+
     <!-- Table Container -->
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
       <!-- Header -->
@@ -209,6 +231,22 @@
               </tr>
             </template>
 
+            <tr class="hover:bg-slate-50 transition-colors">
+              <td
+                colspan="3"
+                class="px-4 py-2 text-center text-sm font-bold uppercase border border-slate-200"
+              >
+                Total Cost
+              </td>
+              <td colspan="5" class="px-4 border border-slate-200"></td>
+              <td
+                class="px-4 py-1 text-sm font-medium text-slate-900 text-center align-middle border border-slate-200"
+              >
+                {{ totals.total_cost || "-" }}
+              </td>
+              <td class="px-4 border border-slate-200"></td>
+            </tr>
+
             <!-- Add New Department -->
             <tr>
               <td
@@ -245,8 +283,31 @@
 </template>
 
 <script>
+import ExcelExport from "@/components/ExcelExport.vue";
+import ExcelExportXLSX from "@/components/ExcelExportXLSX.vue";
+
 export default {
   name: "BudgetCalculator",
+
+  components: {
+    ExcelExport,
+    ExcelExportXLSX,
+  },
+
+  computed: {
+    totals() {
+      let total_cost = 0;
+
+      this.formData.details.forEach((detail) => {
+        total_cost += detail.total_cost || 0;
+      });
+
+      return {
+        total_cost,
+      };
+    },
+  },
+
   data() {
     return {
       mainTitle: "Mobile Game Development Budget Calculator",
@@ -296,8 +357,20 @@ export default {
           },
         ],
       },
+
+      fields: {
+        SL: "SL",
+        Department: "Department",
+        Heads: "Heads",
+        "No. of Unit": "NoOfUnit",
+        "No. of Days": "NoOfDays",
+        "Per Day Cost": "PerDayCost",
+        "Unit Cost": "UnitCost",
+        "Total Cost": "TotalCost",
+      },
     };
   },
+
   methods: {
     getDesignations(department_id) {
       return this.designations.filter((d) => d.department_id === department_id);
