@@ -2,25 +2,29 @@
   <div class="w-full grid grid-cols-1 md:grid-cols-12 gap-4 mt-3">
     <!-- Left Side: Form -->
     <div class="md:col-span-5 bg-white shadow-lg rounded-lg p-6">
-      <h2 class="text-xl font-semibold mb-4 text-gray-800">
+      <h2
+        class="text-xl font-semibold mb-4 text-gray-800 border-b border-gray-300 pb-2"
+      >
         {{ editIndex !== null ? "Edit Department" : "Add Department" }}
       </h2>
 
       <form @submit.prevent="submit" class="space-y-4">
         <div>
-          <label class="block text-gray-700 mb-1">Department Name</label>
+          <label class="block text-gray-700 text-sm font-medium mb-1"
+            >Department Name</label
+          >
           <input
             v-model="formData.department_name"
             type="text"
             placeholder="Enter department name"
-            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-violet-500 focus:outline-none"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-violet-500 focus:outline-none"
           />
         </div>
 
         <div class="flex gap-3">
           <button
             type="submit"
-            class="bg-violet-500 hover:bg-violet-600 text-white px-4 py-2 rounded-lg shadow-md transition-all"
+            class="bg-violet-500 hover:bg-violet-600 text-white cursor-pointer px-4 py-2 rounded-lg shadow-md transition-all"
           >
             {{ editIndex !== null ? "Update" : "Add" }}
           </button>
@@ -29,7 +33,7 @@
             v-if="editIndex !== null"
             type="button"
             @click="cancelEdit"
-            class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg shadow-md transition-all"
+            class="bg-gray-300 hover:bg-gray-400 text-gray-800 cursor-pointer px-4 py-2 rounded-lg shadow-md transition-all"
           >
             Cancel
           </button>
