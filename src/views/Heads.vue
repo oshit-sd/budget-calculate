@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full grid grid-cols-1 md:grid-cols-12 gap-8 mt-3">
+  <div class="w-full grid grid-cols-1 md:grid-cols-12 gap-4 mt-3">
     <!-- Left Side: Form -->
-    <div class="md:col-span-4 bg-white shadow-lg rounded-2xl p-6">
+    <div class="md:col-span-4 bg-white shadow-lg rounded-lg p-6">
       <h2 class="text-xl font-semibold mb-4 text-gray-800">
         {{ editIndex !== null ? "Edit Head Template" : "Add Head Template" }}
       </h2>
@@ -60,7 +60,7 @@
     </div>
 
     <!-- Right Side: Table -->
-    <div class="md:col-span-8 bg-white shadow-lg rounded-2xl p-6">
+    <div class="md:col-span-8 bg-white shadow-lg rounded-lg p-6">
       <h2 class="text-xl font-semibold mb-4 text-gray-800">
         Head Template List
       </h2>

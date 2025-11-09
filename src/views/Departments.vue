@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full grid grid-cols-1 md:grid-cols-12 gap-8 mt-3">
+  <div class="w-full grid grid-cols-1 md:grid-cols-12 gap-4 mt-3">
     <!-- Left Side: Form -->
-    <div class="md:col-span-5 bg-white shadow-lg rounded-2xl p-6">
+    <div class="md:col-span-5 bg-white shadow-lg rounded-lg p-6">
       <h2 class="text-xl font-semibold mb-4 text-gray-800">
         {{ editIndex !== null ? "Edit Department" : "Add Department" }}
       </h2>
@@ -38,7 +38,7 @@
     </div>
 
     <!-- Right Side: Table -->
-    <div class="md:col-span-7 bg-white shadow-lg rounded-2xl p-6">
+    <div class="md:col-span-7 bg-white shadow-lg rounded-lg p-6">
       <h2 class="text-xl font-semibold mb-4 text-gray-800">Department List</h2>
 
       <div class="overflow-x-auto">

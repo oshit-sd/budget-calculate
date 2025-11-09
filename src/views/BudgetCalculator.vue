@@ -1,18 +1,20 @@
 <template>
   <div>
-    <div class="text-end mb-3">
-      <ExcelExport
-        :details="formData.details"
-        :departments="departments"
-        :fields="excel_fields"
-        :header="[mainTitle, subTitle]"
-        :deliverables="deliverables"
-        :totals="totals"
-        file-name="budget-calculation.xlsx"
-      >
-        ⬇ Download Budget Excel
-      </ExcelExport>
-    </div>
+    <PageTitle title="Budget Calculate">
+      <template #actions>
+        <ExcelExport
+          :details="formData.details"
+          :departments="departments"
+          :fields="excel_fields"
+          :header="[mainTitle, subTitle]"
+          :deliverables="deliverables"
+          :totals="totals"
+          file-name="budget-calculation.xlsx"
+        >
+          ⬇ Download Budget Excel
+        </ExcelExport>
+      </template>
+    </PageTitle>
 
     <!-- <ExcelExportXLSX
       :details="formData.details"
@@ -294,6 +296,7 @@ import { defaultDepartments, defaultHeads } from "@/data/defaults";
 
 import ExcelExport from "@/components/ExcelExport.vue";
 import ExcelExportXLSX from "@/components/ExcelExportXLSX.vue";
+import PageTitle from "@/components/PageTitle.vue";
 
 export default {
   name: "BudgetCalculator",
@@ -301,6 +304,7 @@ export default {
   components: {
     ExcelExport,
     ExcelExportXLSX,
+    PageTitle,
   },
 
   computed: {

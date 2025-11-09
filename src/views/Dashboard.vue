@@ -14,7 +14,7 @@
     </div>
 
     <!-- Stats Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
       <div
         v-for="(stat, index) in stats"
         :key="index"
@@ -94,36 +94,6 @@
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>
-
-    <!-- Quick Actions -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <div
-        class="bg-gradient-to-br from-violet-50 to-purple-50 p-5 rounded-xl shadow-lg hover:scale-105 transition transform cursor-pointer"
-      >
-        <p class="text-gray-800 font-semibold mb-2">
-          Create New Project Estimate
-        </p>
-        <p class="text-gray-500 text-sm">
-          Quickly start budgeting a new project.
-        </p>
-      </div>
-      <div
-        class="bg-gradient-to-br from-violet-50 to-purple-50 p-5 rounded-xl shadow-lg hover:scale-105 transition transform cursor-pointer"
-      >
-        <p class="text-gray-800 font-semibold mb-2">View All Projects</p>
-        <p class="text-gray-500 text-sm">
-          See all your past and active projects.
-        </p>
-      </div>
-      <div
-        class="bg-gradient-to-br from-violet-50 to-purple-50 p-5 rounded-xl shadow-lg hover:scale-105 transition transform cursor-pointer"
-      >
-        <p class="text-gray-800 font-semibold mb-2">Generate Reports</p>
-        <p class="text-gray-500 text-sm">
-          Export budgets and summaries in PDF or Excel.
-        </p>
       </div>
     </div>
   </div>
