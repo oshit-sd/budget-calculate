@@ -5,14 +5,23 @@
         <ExcelExport
           :details="formData.details"
           :departments="departments"
+          :heads="heads"
           :fields="excel_fields"
-          :header="[mainTitle, subTitle]"
-          :deliverables="deliverables"
+          :header="[formData.main_title, formData.sub_title]"
+          :deliverables="formData.deliverables"
           :totals="totals"
           file-name="budget-calculation.xlsx"
         >
           ⬇ Download Budget Excel
         </ExcelExport>
+
+        <button
+          type="button"
+          class="bg-lime-600 hover:bg-lime-700 text-white cursor-pointer px-4 py-2 rounded-lg shadow-md transition-all"
+          @click="submit"
+        >
+          Save
+        </button>
       </template>
     </PageTitle>
 
@@ -31,7 +40,7 @@
         <!-- Main Title -->
         <div class="text-center">
           <input
-            v-model="mainTitle"
+            v-model="formData.main_title"
             type="text"
             class="text-xl font-bold text-slate-900 w-full text-center bg-transparent focus:ring-2 focus:ring-violet-500 rounded-md"
           />
@@ -40,7 +49,7 @@
         <!-- Subtitle -->
         <div class="text-center">
           <input
-            v-model="subTitle"
+            v-model="formData.sub_title"
             type="text"
             class="text-md text-slate-600 font-medium w-full text-center bg-transparent focus:ring-2 focus:ring-violet-500 rounded-md"
           />
@@ -127,7 +136,7 @@
                 >
                   <select
                     @change="selectHeads($event.target.value, member)"
-                    v-model="member.user_id"
+                    v-model="member.head_id"
                     class="w-full bg-transparent text-slate-900 font-medium focus:ring-2 focus:ring-violet-500 rounded-md"
                   >
                     <option value="">--Select Head--</option>
@@ -196,7 +205,7 @@
                 >
                   <button
                     v-if="detail.members.length > 1"
-                    class="text-red-500 hover:text-red-700 font-semibold text-xl cursor-pointer"
+                    class="text-red-500 hover:text-red-700 me-3 font-semibold text-xl cursor-pointer"
                     @click="removeMember(deptIndex, mIndex)"
                   >
                     ×
@@ -227,7 +236,7 @@
                 >
                   <button
                     v-if="formData.details.length > 1"
-                    class="text-red-500 hover:text-red-700 me-3 font-semibold text-xl cursor-pointer"
+                    class="text-red-500 hover:text-red-700 font-semibold text-xl cursor-pointer"
                     @click="this.formData.details.splice(deptIndex, 1)"
                   >
                     ×
@@ -277,12 +286,12 @@
 
       <!-- Deliverables -->
       <div class="p-6">
-        <div class="flex items-start space-x-4">
+        <div class="flex items-start space-x-4 text-sm">
           <span class="font-semibold text-slate-900 w-20 mt-1"
             >Deliverables:</span
           >
           <textarea
-            v-model="deliverables"
+            v-model="formData.deliverables"
             class="flex-1 bg-transparent focus:ring-2 focus:ring-violet-500 rounded-md resize-none p-1 text-slate-700"
           ></textarea>
         </div>
@@ -315,6 +324,8 @@ export default {
         total_cost += detail.total_cost || 0;
       });
 
+      this.formData.total_cost = total_cost;
+
       return {
         total_cost,
       };
@@ -323,15 +334,16 @@ export default {
 
   data() {
     return {
-      mainTitle: "Mobile Game Development Budget Calculator",
-      subTitle: "Estimate your mobile game development costs easily",
-      deliverables:
-        "Along with the mobile game (Android, iOS) there will be an admin panel",
-
+      storageKey: "budget_calculation_data",
       departments: [],
       heads: [],
 
       formData: {
+        main_title: "Mobile Game Development Budget Calculator",
+        sub_title: "Estimate your mobile game development costs easily",
+        deliverables:
+          "Along with the mobile game (Android, iOS) there will be an admin panel",
+
         project_id: null,
         details: [
           {
@@ -339,7 +351,7 @@ export default {
             total_cost: 0,
             members: [
               {
-                user_id: "",
+                head_id: "",
                 unit: 0,
                 days: 0,
                 per_day_cost: 0,
@@ -348,6 +360,8 @@ export default {
             ],
           },
         ],
+        status: "Completed",
+        created_at: new Date().toISOString(),
       },
 
       excel_fields: {
@@ -364,6 +378,33 @@ export default {
   },
 
   methods: {
+    submit() {
+      if (!this.formData.main_title) {
+        alert("⚠️ Please enter a project name or main title.");
+        return;
+      }
+
+      const slug = this.generateSlug(this.formData.main_title);
+      if (!slug) return;
+
+      let storageData = JSON.parse(localStorage.getItem(this.storageKey)) || {};
+
+      storageData[slug] = { ...this.formData, slug };
+
+      localStorage.setItem(this.storageKey, JSON.stringify(storageData));
+    },
+
+    generateSlug(title) {
+      if (!title) return null;
+      return title
+        .toString()
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, "-")
+        .replace(/[^\w-]+/g, "")
+        .replace(/--+/g, "-");
+    },
+
     getHeads(department_id) {
       return this.heads.filter((d) => d.department_id === department_id);
     },
@@ -411,7 +452,7 @@ export default {
     },
     createMember() {
       return {
-        user_id: "",
+        head_id: "",
         unit: 0,
         days: 0,
         per_day_cost: 0,
@@ -453,6 +494,15 @@ export default {
 
   mounted() {
     this.loadData();
+
+    if (this.$route.query.slug) {
+      const slug = this.$route.query.slug;
+      const storageData =
+        JSON.parse(localStorage.getItem(this.storageKey)) || {};
+      if (storageData[slug]) {
+        this.formData = { ...storageData[slug] };
+      }
+    }
   },
 };
 </script>

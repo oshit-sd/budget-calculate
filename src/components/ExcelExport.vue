@@ -19,6 +19,7 @@ export default {
   props: {
     details: { type: Array, required: true },
     departments: { type: Array, required: true },
+    heads: { type: Array, required: true },
     fileName: { type: String, default: "export.xlsx" },
     fields: { type: Object, required: true },
     header: { type: [String, Array], default: () => [] },
@@ -35,8 +36,8 @@ export default {
       // Flatten department members
       this.details.forEach((detail) => {
         const deptName =
-          this.departments.find((d) => d.id === detail.department_id)?.name ||
-          "";
+          this.departments.find((d) => d.id === detail.department_id)
+            ?.department_name || "";
 
         if (!Array.isArray(detail.members) || detail.members.length === 0) {
           result.push({
@@ -51,10 +52,13 @@ export default {
           });
         } else {
           detail.members.forEach((member, index) => {
+            const headName =
+              this.heads.find((d) => d.id === member.head_id)?.head_name || "";
+
             result.push({
               SL: index === 0 ? sl++ : "",
               Department: index === 0 ? deptName : "",
-              Heads: member.user_id || "",
+              Heads: headName || "",
               NoOfUnit: member.unit || "",
               NoOfDays: member.days || "",
               PerDayCost: member.per_day_cost || "",

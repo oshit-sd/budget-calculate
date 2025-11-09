@@ -63,16 +63,14 @@
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <tr
-              v-for="(project, index) in recentProjects"
+              v-for="(project, index) in projects"
               :key="index"
               class="hover:bg-violet-50 transition"
             >
               <td class="px-4 py-2 text-gray-700 font-medium">
-                {{ project.name }}
+                {{ project.main_title }}
               </td>
-              <td class="px-4 py-2 text-gray-700">
-                ${{ project.budget.toLocaleString() }}
-              </td>
+              <td class="px-4 py-2 text-gray-700">{{ project.total_cost }}</td>
               <td class="px-4 py-2">
                 <span
                   :class="{
@@ -89,7 +87,14 @@
               </td>
               <td class="px-4 py-2 text-gray-500">{{ project.created_at }}</td>
               <td class="px-4 py-2">
-                <button class="text-violet-600 hover:underline">View</button>
+                <router-link
+                  :to="{
+                    name: 'budget-calculate',
+                    query: { slug: project.slug },
+                  }"
+                  class="text-violet-600 hover:underline"
+                  >View</router-link
+                >
               </td>
             </tr>
           </tbody>
@@ -98,46 +103,39 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref } from "vue";
+<script>
 import { BarChart, Users, FileText, DollarSign, Plus } from "lucide-vue-next";
 
-const recentProjects = ref([
-  {
-    name: "Website Redesign",
-    budget: 15000,
-    status: "Completed",
-    created_at: "2025-10-01",
-  },
-  {
-    name: "Mobile App",
-    budget: 35000,
-    status: "In Progress",
-    created_at: "2025-10-12",
-  },
-  {
-    name: "Marketing Campaign",
-    budget: 8000,
-    status: "Pending",
-    created_at: "2025-10-18",
-  },
-  {
-    name: "CRM Integration",
-    budget: 25000,
-    status: "In Progress",
-    created_at: "2025-10-22",
-  },
-]);
+export default {
+  name: "Dashboard",
 
-const stats = ref([
-  { label: "Total Projects", value: 12, icon: BarChart },
-  { label: "Total Budget", value: "$124,500", icon: DollarSign },
-  { label: "Active Projects", value: 7, icon: FileText },
-  { label: "Team Members", value: 18, icon: Users },
-]);
+  components: {
+    BarChart,
+    Users,
+    FileText,
+    DollarSign,
+    Plus,
+  },
+
+  data() {
+    return {
+      projects: [],
+      stats: [
+        { label: "Total Projects", value: 12, icon: BarChart },
+        { label: "Total Budget", value: "$124,500", icon: DollarSign },
+        { label: "Active Projects", value: 7, icon: FileText },
+        { label: "Team Members", value: 18, icon: Users },
+      ],
+    };
+  },
+
+  mounted() {
+    const stored = localStorage.getItem("budget_calculation_data");
+    try {
+      this.projects = JSON.parse(stored);
+    } catch (e) {
+      console.error("Error parsing localStorage data", e);
+    }
+  },
+};
 </script>
-
-<style scoped>
-/* Smooth hover and scaling for cards */
-</style>
