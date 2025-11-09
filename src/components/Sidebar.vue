@@ -101,7 +101,7 @@
     <div
       v-if="sidebarOpen"
       @click="closeSidebar"
-      class="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
+      class="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm lg:hidden"
     ></div>
   </div>
 </template>
