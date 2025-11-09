@@ -28,7 +28,7 @@
         <table class="w-full border-collapse">
           <thead>
             <tr class="bg-gray-200 text-slate-800">
-              <th class="px-4 py-2 text-left text-sm font-bold uppercase">
+              <th class="px-4 py-2 text-center text-sm font-bold uppercase">
                 Sl.
               </th>
               <th class="px-4 py-2 text-left text-sm font-bold uppercase">
@@ -49,10 +49,10 @@
               <th class="px-4 py-2 text-center text-sm font-bold uppercase">
                 Unit Cost
               </th>
+              <th class="px-4 py-2 text-center text-sm font-semibold"></th>
               <th class="px-4 py-2 text-center text-sm font-bold uppercase">
                 Total Cost
               </th>
-              <th class="px-4 py-2 text-center text-sm font-semibold"></th>
               <th class="px-4 py-2 text-center text-sm font-semibold"></th>
             </tr>
           </thead>
@@ -120,6 +120,7 @@
                 <td class="px-2 py-1 text-center border border-slate-200">
                   <input
                     type="number"
+                    min="0"
                     v-model.number="member.unit"
                     @input="calculateTotal(detail, member)"
                     @focus="(e) => e.target.select()"
@@ -131,6 +132,7 @@
                 <td class="px-2 py-1 text-center border border-slate-200">
                   <input
                     type="number"
+                    min="0"
                     v-model.number="member.days"
                     @input="calculateTotal(detail, member)"
                     @focus="(e) => e.target.select()"
@@ -142,6 +144,7 @@
                 <td class="px-2 py-1 text-center border border-slate-200">
                   <input
                     type="number"
+                    min="0"
                     v-model.number="member.per_day_cost"
                     @input="calculateTotal(detail, member)"
                     @focus="(e) => e.target.select()"
@@ -156,22 +159,13 @@
                   {{ member.unit_cost || "-" }}
                 </td>
 
-                <!-- Total Cost -->
-                <td
-                  v-if="mIndex === 0"
-                  :rowspan="detail.members.length"
-                  class="px-4 py-1 text-sm text-center text-slate-800 border border-slate-200"
-                >
-                  {{ detail.total_cost || "-" }}
-                </td>
-
                 <!-- Actions -->
                 <td
-                  class="px-4 py-1 text-center border border-slate-200 text-sm"
+                  class="px-3 py-1 flex justify-between border border-slate-200 text-sm"
                 >
                   <button
                     v-if="detail.members.length > 1"
-                    class="text-red-500 hover:text-red-700 me-3 font-semibold text-xl cursor-pointer"
+                    class="text-red-500 hover:text-red-700 font-semibold text-xl cursor-pointer"
                     @click="removeMember(deptIndex, mIndex)"
                   >
                     ×
@@ -183,6 +177,15 @@
                   >
                     +
                   </button>
+                </td>
+
+                <!-- Total Cost -->
+                <td
+                  v-if="mIndex === 0"
+                  :rowspan="detail.members.length"
+                  class="px-4 py-1 text-sm text-center text-slate-800 border border-slate-200"
+                >
+                  {{ detail.total_cost || "-" }}
                 </td>
 
                 <!-- Actions -->
@@ -198,13 +201,6 @@
                   >
                     ×
                   </button>
-                  <button
-                    v-if="formData.details.length == deptIndex + 1"
-                    class="text-violet-600 hover:text-violet-800 font-semibold text-xl cursor-pointer"
-                    @click="addDepartment()"
-                  >
-                    +
-                  </button>
                 </td>
               </tr>
 
@@ -212,6 +208,22 @@
                 <td colspan="20" class="py-2"></td>
               </tr>
             </template>
+
+            <!-- Add New Department -->
+            <tr>
+              <td
+                colspan="20"
+                class="py-2 border-t border-gray-200 text-center"
+              >
+                <button
+                  class="flex items-center justify-center gap-2 text-violet-600 hover:text-violet-800 font-semibold text-sm px-4 py-2 rounded-md hover:bg-violet-50 cursor-pointer mx-auto"
+                  @click="addDepartment"
+                >
+                  <span class="text-xl">+</span>
+                  <span>Add New Department</span>
+                </button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
