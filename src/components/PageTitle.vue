@@ -16,10 +16,10 @@
       <span class="font-semibold text-blue-900">{{ $route.meta.title }}</span>
     </nav>
 
-    <h1
+    <!-- <h1
       class="text-lg font-semibold tracking-tight text-center text-slate-700 hidden md:block"
     >
       {{ $route.meta.title }}
-    </h1>
+    </h1> -->
   </div>
 </template>

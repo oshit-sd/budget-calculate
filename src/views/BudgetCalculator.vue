@@ -4,7 +4,7 @@
       <ExcelExport
         :details="formData.details"
         :departments="departments"
-        :fields="fields"
+        :fields="excel_fields"
         :header="[mainTitle, subTitle]"
         :deliverables="deliverables"
         :totals="totals"
@@ -114,7 +114,7 @@
                       :key="dept.id"
                       :value="dept.id"
                     >
-                      {{ dept.name }}
+                      {{ dept.department_name }}
                     </option>
                   </select>
                 </td>
@@ -124,16 +124,17 @@
                   class="px-4 py-1 text-sm text-slate-700 border border-slate-200"
                 >
                   <select
+                    @change="selectHeads($event.target.value, member)"
                     v-model="member.user_id"
                     class="w-full bg-transparent text-slate-900 font-medium focus:ring-2 focus:ring-violet-500 rounded-md"
                   >
                     <option value="">--Select Head--</option>
                     <option
-                      v-for="des in getDesignations(detail.department_id)"
+                      v-for="des in getHeads(detail.department_id)"
                       :key="des.head"
-                      :value="des.head"
+                      :value="des.id"
                     >
-                      {{ des.head }}
+                      {{ des.head_name }}
                     </option>
                   </select>
                 </td>
@@ -163,7 +164,7 @@
                 </td>
 
                 <!-- Per Day Cost -->
-                <td class="px-2 py-1 text-center border border-slate-200">
+                <!-- <td class="px-2 py-1 text-center border border-slate-200">
                   <input
                     type="number"
                     min="0"
@@ -172,6 +173,12 @@
                     @focus="(e) => e.target.select()"
                     class="text-center w-24 bg-transparent focus:ring-2 focus:ring-violet-500 rounded-md"
                   />
+                </td> -->
+
+                <td
+                  class="px-4 py-1 text-sm text-center text-slate-800 border border-slate-200"
+                >
+                  {{ member.per_day_cost || "-" }}
                 </td>
 
                 <!-- Unit Cost -->
@@ -283,6 +290,8 @@
 </template>
 
 <script>
+import { defaultDepartments, defaultHeads } from "@/data/defaults";
+
 import ExcelExport from "@/components/ExcelExport.vue";
 import ExcelExportXLSX from "@/components/ExcelExportXLSX.vue";
 
@@ -312,32 +321,11 @@ export default {
     return {
       mainTitle: "Mobile Game Development Budget Calculator",
       subTitle: "Estimate your mobile game development costs easily",
-      isEditingTitle: false,
-      isEditingSubtitle: false,
-
       deliverables:
         "Along with the mobile game (Android, iOS) there will be an admin panel",
 
-      departments: [
-        { id: 1, name: "Managing & Planning Department" },
-        { id: 2, name: "Art Department" },
-        { id: 3, name: "Development Department" },
-        { id: 4, name: "Others" },
-      ],
-      designations: [
-        { head: "Project Manager", department_id: 1 },
-        { head: "Game Designer", department_id: 1 },
-        { head: "UI/UX Designer", department_id: 2 },
-        { head: "2D Game Artist", department_id: 2 },
-        { head: "Spine Animator", department_id: 2 },
-        { head: "Technical Lead", department_id: 3 },
-        { head: "Sr. Game Developer", department_id: 3 },
-        { head: "Mid Game Developer", department_id: 3 },
-        { head: "Sr. Backend Developer", department_id: 3 },
-        { head: "Sr. Frontend Developer", department_id: 3 },
-        { head: "Sr. QA Engineer", department_id: 4 },
-        { head: "Sr. Sound Engineer", department_id: 4 },
-      ],
+      departments: [],
+      heads: [],
 
       formData: {
         project_id: null,
@@ -358,7 +346,7 @@ export default {
         ],
       },
 
-      fields: {
+      excel_fields: {
         SL: "SL",
         Department: "Department",
         Heads: "Heads",
@@ -372,8 +360,15 @@ export default {
   },
 
   methods: {
-    getDesignations(department_id) {
-      return this.designations.filter((d) => d.department_id === department_id);
+    getHeads(department_id) {
+      return this.heads.filter((d) => d.department_id === department_id);
+    },
+
+    selectHeads(id, member) {
+      const head = this.heads.find((d) => parseInt(d.id) === parseInt(id));
+      if (head) {
+        member.per_day_cost = head.per_day_salary;
+      }
     },
 
     calculateTotal(dept, member) {
@@ -419,6 +414,41 @@ export default {
         unit_cost: 0,
       };
     },
+
+    loadData() {
+      const deptStore = localStorage.getItem("department_data");
+      const headsStore = localStorage.getItem("heads_data");
+      if (deptStore) {
+        try {
+          this.departments = JSON.parse(deptStore);
+        } catch (e) {
+          console.error("Error parsing departments", e);
+          this.departments = [...defaultDepartments];
+        }
+      } else {
+        this.departments = [...defaultDepartments];
+        localStorage.setItem(
+          "department_data",
+          JSON.stringify(this.departments)
+        );
+      }
+
+      if (headsStore) {
+        try {
+          this.heads = JSON.parse(headsStore);
+        } catch (e) {
+          console.error("Error parsing heads", e);
+          this.heads = [...defaultHeads];
+        }
+      } else {
+        this.heads = [...defaultHeads];
+        localStorage.setItem("heads_data", JSON.stringify(this.heads));
+      }
+    },
+  },
+
+  mounted() {
+    this.loadData();
   },
 };
 </script>

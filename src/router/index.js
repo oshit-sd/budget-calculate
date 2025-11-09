@@ -9,13 +9,20 @@ const routes = [
   {
     path: '/budget-calculate',
     name: 'budget-calculate',
+    meta: { title: 'Budget Calculate' },
     component: () => import('@views/BudgetCalculator.vue'),
   },
   {
-    path: '/reports',
-    name: 'reports',
-    meta: { title: 'Reports' },
-    component: () => import('@views/Reports.vue'),
+    path: '/heads',
+    name: 'heads',
+    meta: { title: 'Heads' },
+    component: () => import('@views/Heads.vue'),
+  },
+  {
+    path: '/departments',
+    name: 'departments',
+    meta: { title: 'Departments' },
+    component: () => import('@views/Departments.vue'),
   },
   {
     path: '/faq',

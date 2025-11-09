@@ -29,8 +29,15 @@
             Budget Calculate
           </router-link>
 
-          <router-link :to="{ name: 'reports' }" :class="linkClass('reports')">
-            Reports
+          <router-link :to="{ name: 'heads' }" :class="linkClass('heads')">
+            Head Template
+          </router-link>
+
+          <router-link
+            :to="{ name: 'departments' }"
+            :class="linkClass('departments')"
+          >
+            Departments
           </router-link>
 
           <router-link :to="{ name: 'faq' }" :class="linkClass('faq')">
