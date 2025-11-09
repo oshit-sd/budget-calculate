@@ -1,92 +1,71 @@
 <template>
-  <nav class="bg-white border-b border-gray-200 px-6 py-1">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center space-x-16">
-        <!-- Logo -->
-        <router-link
-          :to="{ name: 'dashboard' }"
-          class="flex items-center space-x-2"
+  <header
+    class="sticky top-0 z-40 bg-white border-b border-gray-200 flex-shrink-0"
+  >
+    <div class="flex items-center justify-between px-6 py-4">
+      <!-- Left Side - Mobile Menu Button -->
+      <div class="flex items-center">
+        <button
+          @click="toggleSidebar"
+          data-sidebar-toggle
+          class="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100"
         >
-          <div class="w-16 h-16 flex items-center justify-center">
-            <img src="/images/logo.png" />
-          </div>
-          <span class="font-semibold text-gray-900 text-xl">Estimatica</span>
-        </router-link>
+          <Menu class="w-6 h-6" />
+        </button>
 
-        <!-- Navigation Links -->
-        <div class="hidden md:flex items-center space-x-6">
-          <router-link
-            :to="{ name: 'dashboard' }"
-            :class="linkClass('dashboard')"
-          >
-            Dashboard
-          </router-link>
-
-          <router-link
-            :to="{ name: 'budget-calculate' }"
-            :class="linkClass('budget-calculate')"
-          >
-            Budget Calculate
-          </router-link>
-
-          <router-link :to="{ name: 'heads' }" :class="linkClass('heads')">
-            Head Template
-          </router-link>
-
-          <router-link
-            :to="{ name: 'departments' }"
-            :class="linkClass('departments')"
-          >
-            Departments
-          </router-link>
-
-          <router-link :to="{ name: 'faq' }" :class="linkClass('faq')">
-            FAQ
-          </router-link>
+        <!-- Page Title -->
+        <div class="ml-4 lg:ml-0">
+          <h1 class="text-lg font-semibold text-gray-900">
+            {{ getCurrentPageTitle() }}
+          </h1>
         </div>
       </div>
 
       <!-- Right Side -->
       <div class="flex items-center space-x-4">
+        <!-- Notifications -->
         <button class="p-2 text-gray-400 hover:text-gray-600 relative">
-          <a href="javascript:void(0)">
-            <Bell class="w-5 h-5" />
-          </a>
+          <Bell class="w-5 h-5" />
           <span
             class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"
           ></span>
         </button>
-        <div class="flex items-center space-x-2">
+
+        <!-- User Profile -->
+        <div class="hidden sm:flex items-center space-x-3">
           <img src="/images/user.png" alt="User" class="w-8 h-8 rounded-full" />
           <span class="text-sm font-medium text-gray-700">
-            <a href="javascript:void(0)" target="_blank"> OSHIT SUTRADAR </a>
+            OSHIT SUTRADAR
           </span>
         </div>
       </div>
     </div>
-  </nav>
+  </header>
 </template>
 
 <script>
-import { Bell } from "lucide-vue-next";
+import { Bell, Menu } from "lucide-vue-next";
 
 export default {
   name: "Nav",
   components: {
     Bell,
+    Menu,
   },
-  data() {
-    return {};
-  },
-
+  emits: ["toggle-sidebar"],
   methods: {
-    linkClass(name) {
-      return [
-        "pb-2 font-medium",
-        this.$route.params.slug === name || this.$route.name === name
-          ? "text-blue-800 border-b-2 border-blue-800"
-          : "text-gray-500 hover:text-gray-700",
-      ];
+    toggleSidebar() {
+      this.$emit("toggle-sidebar");
+    },
+    getCurrentPageTitle() {
+      const routeNameMap = {
+        dashboard: "Dashboard",
+        "budget-calculate": "Budget Calculate",
+        heads: "Head Template",
+        departments: "Departments",
+        faq: "FAQ",
+      };
+      return routeNameMap[this.$route.name] || "Dashboard";
     },
   },
 };

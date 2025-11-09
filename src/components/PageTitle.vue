@@ -1,25 +1,48 @@
 <template>
-  <div
-    v-if="$route.meta.title"
-    class="w-full mx-auto px-4 py-3 relative mb-3 md:mb-0"
-  >
-    <nav
-      class="absolute left-0 top-1 text-gray-500 text-sm flex gap-1 items-center"
-    >
+  <div class="mb-6">
+    <!-- Breadcrumb Navigation -->
+    <nav class="flex items-center space-x-2 text-sm text-gray-500">
       <router-link
         :to="{ name: 'dashboard' }"
-        class="hover:underline cursor-pointer text-gray-600"
+        class="hover:text-gray-700 transition-colors duration-200"
       >
         Dashboard
       </router-link>
-      <span>/</span>
-      <span class="font-semibold text-blue-900">{{ $route.meta.title }}</span>
+      <svg
+        class="w-4 h-4 text-gray-400"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"
+        ></path>
+      </svg>
+      <span class="font-medium text-gray-900">{{ getCurrentPageTitle() }}</span>
     </nav>
-
-    <!-- <h1
-      class="text-lg font-semibold tracking-tight text-center text-slate-700 hidden md:block"
-    >
-      {{ $route.meta.title }}
-    </h1> -->
   </div>
 </template>
+
+<script>
+export default {
+  name: "PageTitle",
+  methods: {
+    getCurrentPageTitle() {
+      const routeNameMap = {
+        dashboard: "Dashboard",
+        "budget-calculate": "Budget Calculate",
+        heads: "Head Template",
+        departments: "Departments",
+        faq: "FAQ",
+        reports: "Reports",
+      };
+      return (
+        this.$route.meta?.title || routeNameMap[this.$route.name] || "Dashboard"
+      );
+    },
+  },
+};
+</script>
