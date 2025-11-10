@@ -131,7 +131,7 @@
                   class="px-4 py-1 text-sm text-slate-700 border border-slate-200"
                 >
                   <select
-                    @change="selectHeads($event.target.value, member)"
+                    @change="selectHeads($event.target.value, detail, member)"
                     v-model="member.head_id"
                     class="w-full bg-transparent text-slate-900 font-medium focus:ring-2 focus:ring-violet-500 rounded-md"
                   >
@@ -407,18 +407,19 @@ export default {
       return this.heads.filter((d) => d.department_id === department_id);
     },
 
-    selectHeads(id, member) {
+    selectHeads(id, detail, member) {
       const head = this.heads.find((d) => parseInt(d.id) === parseInt(id));
       if (head) {
         member.per_day_cost = head.per_day_salary;
       }
+      this.calculateTotal(detail, member);
     },
 
-    calculateTotal(dept, member) {
+    calculateTotal(detail, member) {
       member.unit_cost =
         (member.unit || 0) * (member.days || 0) * (member.per_day_cost || 0);
 
-      dept.total_cost = dept.members.reduce(
+      detail.total_cost = detail.members.reduce(
         (sum, m) => sum + (m.unit_cost || 0),
         0
       );
