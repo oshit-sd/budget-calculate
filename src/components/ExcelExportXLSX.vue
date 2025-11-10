@@ -178,7 +178,7 @@ export default {
       // Title
       for (let i = 0; i < colCountCells; i++) {
         const cell = XLSX.utils.encode_cell({ r: 0, c: i });
-        setStyle(cell, { bold: true, size: 14, fill: "E0E0E0" });
+        setStyle(cell, { bold: true, size: 16, fill: "E0E0E0" });
       }
 
       // Subtitle
