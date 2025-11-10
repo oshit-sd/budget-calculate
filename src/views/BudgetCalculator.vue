@@ -254,11 +254,21 @@
                 colspan="3"
                 class="px-4 py-2 text-center text-sm font-bold uppercase border border-slate-200"
               >
-                Total Cost
+                Total
               </td>
-              <td colspan="5" class="px-4 border border-slate-200"></td>
               <td
-                class="px-4 py-1 text-sm font-medium text-slate-900 text-center align-middle border border-slate-200"
+                class="px-4 py-2 text-sm font-medium text-slate-900 text-center align-middle border border-slate-200"
+              >
+                {{ totals.total_unit || "-" }}
+              </td>
+              <td
+                class="px-4 py-2 text-sm font-medium text-slate-900 text-center align-middle border border-slate-200"
+              >
+                {{ totals.total_days || "-" }}
+              </td>
+              <td colspan="3" class="px-4 border border-slate-200"></td>
+              <td
+                class="px-4 py-2 text-sm font-medium text-slate-900 text-center align-middle border border-slate-200"
               >
                 {{ totals.total_cost || "-" }}
               </td>
@@ -317,15 +327,25 @@ export default {
   computed: {
     totals() {
       let total_cost = 0;
+      let total_days = 0;
+      let total_unit = 0;
 
       this.formData.details.forEach((detail) => {
         total_cost += detail.total_cost || 0;
+        detail.members.forEach((member) => {
+          total_days += member.days || 0;
+          total_unit += member.unit || 0;
+        });
       });
 
       this.formData.total_cost = total_cost;
+      this.formData.total_days = total_days;
+      this.formData.total_unit = total_unit;
 
       return {
         total_cost,
+        total_days,
+        total_unit,
       };
     },
   },
@@ -358,6 +378,9 @@ export default {
             ],
           },
         ],
+        total_days: 0,
+        total_unit: 0,
+        total_cost: 0,
         status: "Completed",
         created_at: new Date().toISOString(),
       },

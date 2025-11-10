@@ -145,11 +145,13 @@ export default {
         wsData.push([]);
       });
 
-      // Total Cost row
+      // Total row
       const totalRowIndex = wsData.length;
       const totalRow = new Array(colCount).fill("");
-      totalRow[0] = "Total Cost";
+      totalRow[0] = "Total";
       totalRow[colCount - 1] = this.totals.total_cost || "";
+      totalRow[colCount - 4] = this.totals.total_days || "";
+      totalRow[colCount - 5] = this.totals.total_unit || "";
       wsData.push(totalRow);
       merges.push({
         s: { r: totalRowIndex, c: 0 },
