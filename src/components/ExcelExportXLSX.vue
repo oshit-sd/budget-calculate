@@ -1,7 +1,7 @@
 <template>
   <button
     @click="downloadExcel"
-    class="bg-violet-600 text-white px-4 py-2 rounded-md inline-flex items-center gap-2"
+    class="bg-violet-600 cursor-pointer text-white px-4 py-2 rounded-md inline-flex items-center gap-2"
   >
     <slot>⬇ Download Excel</slot>
   </button>
@@ -178,7 +178,7 @@ export default {
       // Title
       for (let i = 0; i < colCountCells; i++) {
         const cell = XLSX.utils.encode_cell({ r: 0, c: i });
-        setStyle(cell, { bold: true, size: 16, fill: "E0E0E0" });
+        setStyle(cell, { bold: true, size: 14, fill: "E0E0E0" });
       }
 
       // Subtitle

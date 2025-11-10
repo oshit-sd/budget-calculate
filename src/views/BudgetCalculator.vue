@@ -2,30 +2,16 @@
   <div>
     <PageTitle title="Budget Calculate">
       <template #actions>
-        <ExcelExport
-          v-if="formData.total_cost"
-          :details="formData.details"
-          :departments="departments"
-          :heads="heads"
-          :fields="excel_fields"
-          :header="[formData.title, formData.sub_title]"
-          :deliverables="formData.deliverables"
-          :totals="totals"
-          file-name="budget-calculation.xlsx"
-        >
-          ⬇ Download Budget Excel
-        </ExcelExport>
-
         <ExcelExportXLSX
+          v-if="formData.total_cost"
           :heads="heads"
           :fields="excel_fields"
           :data="formData"
           :departments="departments"
           :deliverables="formData.deliverables"
           :totals="totals"
-          file-name="mobile_game_budget.xlsx"
+          file-name="budget.xlsx"
         >
-          ⬇ Download Budget Excel v2
         </ExcelExportXLSX>
 
         <button
@@ -130,6 +116,10 @@
                       v-for="dept in departments"
                       :key="dept.id"
                       :value="dept.id"
+                      :disabled="
+                        isDepartmentSelected(dept.id) &&
+                        detail.department_id !== dept.id
+                      "
                     >
                       {{ dept.department_name }}
                     </option>
@@ -150,6 +140,10 @@
                       v-for="des in getHeads(detail.department_id)"
                       :key="des.head"
                       :value="des.id"
+                      :disabled="
+                        isHeadSelected(des.id, detail.members) &&
+                        member.head_id !== des.id
+                      "
                     >
                       {{ des.head_name }}
                     </option>
@@ -164,7 +158,7 @@
                     v-model.number="member.unit"
                     @input="calculateTotal(detail, member)"
                     @focus="(e) => e.target.select()"
-                    class="text-center w-20 bg-transparent focus:ring-2 focus:ring-violet-500 rounded-md"
+                    class="text-center w-20 text-sm bg-transparent focus:ring-2 focus:ring-violet-500 rounded-md"
                   />
                 </td>
 
@@ -176,7 +170,7 @@
                     v-model.number="member.days"
                     @input="calculateTotal(detail, member)"
                     @focus="(e) => e.target.select()"
-                    class="text-center w-20 bg-transparent focus:ring-2 focus:ring-violet-500 rounded-md"
+                    class="text-center w-20 text-sm bg-transparent focus:ring-2 focus:ring-violet-500 rounded-md"
                   />
                 </td>
 
@@ -309,7 +303,6 @@
 <script>
 import { defaultDepartments, defaultHeads } from "@/data/defaults";
 
-import ExcelExport from "@/components/ExcelExport.vue";
 import ExcelExportXLSX from "@/components/ExcelExportXLSX.vue";
 import PageTitle from "@/components/PageTitle.vue";
 
@@ -317,7 +310,6 @@ export default {
   name: "BudgetCalculator",
 
   components: {
-    ExcelExport,
     ExcelExportXLSX,
     PageTitle,
   },
@@ -464,6 +456,13 @@ export default {
         per_day_cost: 0,
         unit_cost: 0,
       };
+    },
+
+    isDepartmentSelected(deptId) {
+      return this.formData.details.some((d) => d.department_id === deptId);
+    },
+    isHeadSelected(headId, members) {
+      return members.some((d) => d.head_id === headId);
     },
 
     loadData() {
