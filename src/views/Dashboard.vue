@@ -68,7 +68,7 @@
               class="hover:bg-violet-50 transition"
             >
               <td class="px-4 py-2 text-gray-700 font-medium">
-                {{ project.main_title }}
+                {{ project.title }}
               </td>
               <td class="px-4 py-2 text-gray-700">{{ project.total_cost }}</td>
               <td class="px-4 py-2">

@@ -3,11 +3,12 @@
     <PageTitle title="Budget Calculate">
       <template #actions>
         <ExcelExport
+          v-if="formData.total_cost"
           :details="formData.details"
           :departments="departments"
           :heads="heads"
           :fields="excel_fields"
-          :header="[formData.main_title, formData.sub_title]"
+          :header="[formData.title, formData.sub_title]"
           :deliverables="formData.deliverables"
           :totals="totals"
           file-name="budget-calculation.xlsx"
@@ -15,7 +16,20 @@
           ⬇ Download Budget Excel
         </ExcelExport>
 
+        <ExcelExportXLSX
+          :heads="heads"
+          :fields="excel_fields"
+          :data="formData"
+          :departments="departments"
+          :deliverables="formData.deliverables"
+          :totals="totals"
+          file-name="mobile_game_budget.xlsx"
+        >
+          ⬇ Download Budget Excel v2
+        </ExcelExportXLSX>
+
         <button
+          v-if="formData.total_cost"
           type="button"
           class="bg-lime-600 hover:bg-lime-700 text-white cursor-pointer px-4 py-2 rounded-lg shadow-md transition-all"
           @click="submit"
@@ -25,14 +39,6 @@
       </template>
     </PageTitle>
 
-    <!-- <ExcelExportXLSX
-      :details="formData.details"
-      :departments="departments"
-      file-name="mobile_game_budget.xlsx"
-    >
-      ⬇ Download Budget Excel
-    </ExcelExportXLSX> -->
-
     <!-- Table Container -->
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
       <!-- Header -->
@@ -40,7 +46,7 @@
         <!-- Main Title -->
         <div class="text-center">
           <input
-            v-model="formData.main_title"
+            v-model="formData.title"
             type="text"
             class="text-xl font-bold text-slate-900 w-full text-center bg-transparent focus:ring-2 focus:ring-violet-500 rounded-md"
           />
@@ -339,7 +345,7 @@ export default {
       heads: [],
 
       formData: {
-        main_title: "Mobile Game Development Budget Calculator",
+        title: "Mobile Game Development Budget Calculator",
         sub_title: "Estimate your mobile game development costs easily",
         deliverables:
           "Along with the mobile game (Android, iOS) there will be an admin panel",
@@ -379,12 +385,12 @@ export default {
 
   methods: {
     submit() {
-      if (!this.formData.main_title) {
+      if (!this.formData.title) {
         alert("⚠️ Please enter a project name or main title.");
         return;
       }
 
-      const slug = this.generateSlug(this.formData.main_title);
+      const slug = this.generateSlug(this.formData.title);
       if (!slug) return;
 
       let storageData = JSON.parse(localStorage.getItem(this.storageKey)) || {};

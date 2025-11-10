@@ -9,7 +9,7 @@
       <Nav @toggle-sidebar="toggleSidebar" />
 
       <!-- Main Content -->
-      <main class="flex-1 px-4 py-4 sm:px-6 lg:px-8 overflow-x-auto">
+      <main class="flex-1 px-4 py-4 overflow-x-auto">
         <div class="w-full min-w-0">
           <PageTitle v-if="$route.name != 'dashboard'" />
           <router-view />
