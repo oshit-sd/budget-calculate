@@ -175,21 +175,15 @@
                 </td>
 
                 <!-- Per Day Cost -->
-                <!-- <td class="px-2 py-1 text-center border border-slate-200">
+                <td class="px-2 py-1 text-center border border-slate-200">
                   <input
                     type="number"
                     min="0"
                     v-model.number="member.per_day_cost"
                     @input="calculateTotal(detail, member)"
                     @focus="(e) => e.target.select()"
-                    class="text-center w-24 bg-transparent focus:ring-2 focus:ring-violet-500 rounded-md"
+                    class="text-center w-24 text-sm bg-transparent focus:ring-2 focus:ring-violet-500 rounded-md"
                   />
-                </td> -->
-
-                <td
-                  class="px-4 py-1 text-sm text-center text-slate-800 border border-slate-200"
-                >
-                  {{ member.per_day_cost || "-" }}
                 </td>
 
                 <!-- Unit Cost -->
@@ -433,7 +427,7 @@ export default {
     selectHeads(id, detail, member) {
       const head = this.heads.find((d) => parseInt(d.id) === parseInt(id));
       if (head) {
-        member.per_day_cost = head.per_day_salary;
+        member.per_day_cost = head.per_day_cost;
       }
       this.calculateTotal(detail, member);
     },

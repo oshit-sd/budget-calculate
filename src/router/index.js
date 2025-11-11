@@ -12,9 +12,21 @@ const routes = [
     component: () => import('@views/BudgetCalculator.vue'),
   },
   {
+    path: '/templates',
+    name: 'templates',
+    meta: { title: 'Templates' },
+    component: () => import('@views/template/Index.vue'),
+  },
+  {
+    path: '/templates/create',
+    name: 'templates.create',
+    meta: { title: 'Templates' },
+    component: () => import('@views/template/Create.vue'),
+  },
+  {
     path: '/heads',
     name: 'heads',
-    meta: { title: 'Head Templates' },
+    meta: { title: 'Heads' },
     component: () => import('@views/Heads.vue'),
   },
   {

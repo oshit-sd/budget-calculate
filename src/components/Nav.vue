@@ -61,7 +61,7 @@ export default {
       const routeNameMap = {
         dashboard: "Dashboard",
         "budget-calculate": "Budget Calculate",
-        heads: "Head Template",
+        heads: "Head",
         departments: "Departments",
         faq: "FAQ",
       };

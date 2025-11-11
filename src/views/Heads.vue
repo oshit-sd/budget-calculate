@@ -5,7 +5,7 @@
       <h2
         class="text-xl font-semibold mb-4 text-gray-800 border-b border-gray-300 pb-2"
       >
-        {{ editIndex !== null ? "Edit Head Template" : "Add Head Template" }}
+        {{ editIndex !== null ? "Edit Head" : "Add Head" }}
       </h2>
 
       <form @submit.prevent="submit" class="space-y-4">
@@ -25,6 +25,17 @@
         </div>
         <div>
           <label class="block text-gray-700 text-sm font-medium mb-1"
+            >Type</label
+          >
+          <input
+            v-model="formData.type"
+            type="text"
+            placeholder="Enter type"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-violet-500 focus:outline-none"
+          />
+        </div>
+        <div>
+          <label class="block text-gray-700 text-sm font-medium mb-1"
             >Head Name</label
           >
           <input
@@ -37,12 +48,12 @@
 
         <div>
           <label class="block text-gray-700 text-sm font-medium mb-1"
-            >Per Day Salary</label
+            >Per Day Cost</label
           >
           <input
-            v-model="formData.per_day_salary"
+            v-model="formData.per_day_cost"
             type="number"
-            placeholder="Enter per day salary"
+            placeholder="Enter per day cost"
             class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-violet-500 focus:outline-none"
           />
         </div>
@@ -69,9 +80,7 @@
 
     <!-- Right Side: Table -->
     <div class="md:col-span-8 bg-white shadow-lg rounded-lg p-6">
-      <h2 class="text-xl font-semibold mb-4 text-gray-800">
-        Head Template List
-      </h2>
+      <h2 class="text-xl font-semibold mb-4 text-gray-800">Head List</h2>
 
       <div class="overflow-x-auto">
         <table class="w-full border-collapse">
@@ -85,7 +94,10 @@
                 Head Name
               </th>
               <th class="px-4 py-2 text-left text-sm font-bold uppercase">
-                Per Day Salary
+                Type
+              </th>
+              <th class="px-4 py-2 text-left text-sm font-bold uppercase">
+                Per Day Cost
               </th>
               <th class="px-4 py-2 text-left text-sm font-bold uppercase">
                 Actions
@@ -119,7 +131,12 @@
               <td
                 class="px-4 py-2 text-sm text-gray-700 border border-slate-200"
               >
-                {{ item.per_day_salary }}
+                {{ item.type }}
+              </td>
+              <td
+                class="px-4 py-2 text-sm text-gray-700 border border-slate-200"
+              >
+                {{ item.per_day_cost }}
               </td>
               <td
                 class="px-4 py-2 text-sm text-gray-700 border border-slate-200"
@@ -140,7 +157,7 @@
             </tr>
 
             <tr v-if="data.length === 0">
-              <td colspan="4" class="text-center text-gray-500 py-3 italic">
+              <td colspan="5" class="text-center text-gray-500 py-3 italic">
                 No data available
               </td>
             </tr>

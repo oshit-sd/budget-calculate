@@ -52,12 +52,21 @@
         </router-link>
 
         <router-link
+          :to="{ name: 'templates' }"
+          :class="sidebarLinkClass('templates')"
+          @click="closeSidebar"
+        >
+          <FileText class="w-5 h-5" />
+          <span>Templates</span>
+        </router-link>
+
+        <router-link
           :to="{ name: 'heads' }"
           :class="sidebarLinkClass('heads')"
           @click="closeSidebar"
         >
           <FileText class="w-5 h-5" />
-          <span>Head Template</span>
+          <span>Heads</span>
         </router-link>
 
         <router-link
