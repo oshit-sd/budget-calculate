@@ -103,8 +103,9 @@
     </div>
   </div>
 </template>
+
 <script>
-import { BarChart, Users, FileText, DollarSign, Plus } from "lucide-vue-next";
+import { BarChart, Users, FileText, Banknote, Plus } from "lucide-vue-next";
 
 export default {
   name: "Dashboard",
@@ -113,7 +114,7 @@ export default {
     BarChart,
     Users,
     FileText,
-    DollarSign,
+    Banknote,
     Plus,
   },
 
@@ -121,21 +122,67 @@ export default {
     return {
       projects: [],
       stats: [
-        { label: "Total Projects", value: 12, icon: BarChart },
-        { label: "Total Budget", value: "$124,500", icon: DollarSign },
-        { label: "Active Projects", value: 7, icon: FileText },
-        { label: "Team Members", value: 18, icon: Users },
+        { label: "Total Projects", value: 0, icon: BarChart },
+        { label: "Total Budget", value: "$0.00", icon: Banknote },
+        { label: "Active Projects", value: 0, icon: FileText },
+        { label: "Team Members", value: 0, icon: Users },
       ],
     };
   },
 
   mounted() {
-    const stored = localStorage.getItem("budget_calculation_data");
-    try {
-      this.projects = JSON.parse(stored);
-    } catch (e) {
-      console.error("Error parsing localStorage data", e);
-    }
+    this.loadDashboardData();
+  },
+
+  methods: {
+    loadDashboardData() {
+      try {
+        const departmentsStored = localStorage.getItem("department_data");
+        const deptParsed = JSON.parse(departmentsStored);
+
+        const headsStored = localStorage.getItem("heads_data");
+        const headParsed = JSON.parse(headsStored);
+
+        const budgetStored = localStorage.getItem("budget_calculation_data");
+        const budgetParsed = JSON.parse(budgetStored);
+
+        let totalBudget = 0;
+        let totalProjects = 0;
+
+        if (budgetParsed) {
+          this.projects = Object.values(budgetParsed);
+          totalProjects = Object.keys(this.projects).length;
+          totalBudget = this.projects.reduce(
+            (sum, project) => sum + (parseFloat(project.total_cost) || 0),
+            0
+          );
+        }
+
+        this.stats = [
+          { label: "Total Projects", value: totalProjects, icon: BarChart },
+          {
+            label: "Total Budget",
+            value: totalBudget.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+            }),
+            icon: Banknote,
+          },
+          {
+            label: "Total Departments",
+            value: deptParsed ? Object.keys(deptParsed).length : 0,
+            icon: FileText,
+          },
+          {
+            label: "Total Heads",
+            value: headParsed ? Object.keys(headParsed).length : 0,
+            icon: FileText,
+          },
+        ];
+      } catch (error) {
+        console.error("Error loading dashboard data:", error);
+        this.projects = [];
+      }
+    },
   },
 };
 </script>
