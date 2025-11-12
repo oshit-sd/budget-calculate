@@ -387,7 +387,7 @@ export default {
       templates: [],
 
       formData: {
-        template_id: "foreign-tempalte",
+        template_id: "",
         title: "Mobile Game Development Budget Calculator",
         sub_title: "Estimate your mobile game development costs easily",
         remarks:
