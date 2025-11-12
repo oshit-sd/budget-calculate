@@ -8,7 +8,7 @@
           :fields="excel_fields"
           :data="formData"
           :departments="departments"
-          :deliverables="formData.deliverables"
+          :remarks="formData.remarks"
           :totals="totals"
           file-name="budget.xlsx"
         >
@@ -27,8 +27,23 @@
 
     <!-- Table Container -->
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="py-2 px-3">
+        <div class="flex items-center gap-2">
+          <span class="text-gray-700 text-sm font-medium">Template:</span>
+          <select
+            v-model="formData.template_id"
+            class="border border-slate-400 rounded-lg px-3 py-2 text-sm"
+          >
+            <option value="">--Select a template--</option>
+            <option v-for="(item, key) in templates" :key="key" :value="key">
+              {{ item.template_name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
       <!-- Header -->
-      <div class="rounded-lg p-6">
+      <div class="rounded-lg pb-4">
         <!-- Main Title -->
         <div class="text-center">
           <input
@@ -288,15 +303,12 @@
         </table>
       </div>
 
-      <!-- Deliverables -->
+      <!-- remarks -->
       <div class="p-6">
         <div class="flex items-start space-x-4 text-sm">
-          <span class="font-semibold text-slate-900 w-20 mt-1"
-            >Deliverables:</span
-          >
           <textarea
-            v-model="formData.deliverables"
-            class="flex-1 bg-transparent focus:ring-2 focus:ring-violet-500 rounded-md resize-none p-1 text-slate-700"
+            v-model="formData.remarks"
+            class="flex-1 border border-gray-300 focus:ring-2 focus:ring-violet-500 rounded-md resize-none p-1 text-slate-700"
           ></textarea>
         </div>
       </div>
@@ -344,19 +356,43 @@ export default {
     },
   },
 
+  watch: {
+    "formData.template_id"(newTemplateId) {
+      if (!newTemplateId) return;
+
+      const selectedTemplate = this.templates[newTemplateId];
+
+      if (!selectedTemplate) return;
+
+      this.formData.details.forEach((detail) => {
+        detail.members.forEach((member) => {
+          const matched = selectedTemplate.details.find(
+            (t) =>
+              t.id === member.head_id &&
+              t.department_id === detail.department_id
+          );
+          member.per_day_cost = matched ? matched.per_day_cost : 0;
+
+          this.calculateTotal(detail, member);
+        });
+      });
+    },
+  },
+
   data() {
     return {
       storageKey: "budget_calculation_data",
       departments: [],
       heads: [],
+      templates: [],
 
       formData: {
+        template_id: "foreign-tempalte",
         title: "Mobile Game Development Budget Calculator",
         sub_title: "Estimate your mobile game development costs easily",
-        deliverables:
+        remarks:
           "Along with the mobile game (Android, iOS) there will be an admin panel",
 
-        project_id: null,
         details: [
           {
             department_id: "",
@@ -425,10 +461,7 @@ export default {
     },
 
     selectHeads(id, detail, member) {
-      const head = this.heads.find((d) => parseInt(d.id) === parseInt(id));
-      if (head) {
-        member.per_day_cost = head.per_day_cost;
-      }
+      this.templateInfo(detail, member);
       this.calculateTotal(detail, member);
     },
 
@@ -483,9 +516,18 @@ export default {
       return members.some((d) => d.head_id === headId);
     },
 
+    templateInfo(detail, item) {
+      let findTemplate = this.templates[this.formData.template_id] || {};
+      let selected = findTemplate?.details.find(
+        (t) => t.id === item.head_id && detail.department_id === t.department_id
+      );
+      item.per_day_cost = selected ? selected.per_day_cost : 0;
+    },
+
     loadData() {
       const deptStore = localStorage.getItem("department_data");
       const headsStore = localStorage.getItem("heads_data");
+      const templatesStore = localStorage.getItem("template_data");
       if (deptStore) {
         try {
           this.departments = JSON.parse(deptStore);
@@ -512,6 +554,15 @@ export default {
         this.heads = [...defaultHeads];
         localStorage.setItem("heads_data", JSON.stringify(this.heads));
       }
+
+      if (templatesStore) {
+        try {
+          this.templates = JSON.parse(templatesStore);
+        } catch (e) {
+          console.error("Error parsing templates", e);
+          this.templates = [];
+        }
+      }
     },
   },
 
@@ -532,8 +583,8 @@ export default {
 
 <style scoped>
 select,
+textarea,
 input {
-  border: none;
   outline: none;
 }
 </style>

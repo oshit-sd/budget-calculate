@@ -20,7 +20,7 @@ export default {
     fields: { type: Object, required: true },
     fileName: { type: String, default: "export.xlsx" },
     totals: { type: Object, required: true },
-    deliverables: { type: String, default: "" },
+    remarks: { type: String, default: "" },
   },
 
   methods: {
@@ -158,10 +158,10 @@ export default {
         e: { r: totalRowIndex, c: 2 },
       });
 
-      // Deliverables
+      // remarks
       const deliverableRowIndex = wsData.length + 2;
       const deliverableRow = new Array(colCount).fill("");
-      deliverableRow[0] = this.deliverables || "";
+      deliverableRow[0] = this.remarks || "";
       wsData.push([]);
       wsData.push([]);
       wsData.push(deliverableRow);
@@ -195,7 +195,7 @@ export default {
           // Total Cost row
           else if (r === totalRowIndex)
             options = { bold: true, fill: "FFF2CC" };
-          // Deliverables row
+          // remarks row
           else if (r === deliverableRowIndex)
             options = { italic: true, fill: "E2EFDA" };
 
