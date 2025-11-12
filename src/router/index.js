@@ -8,8 +8,14 @@ const routes = [
   },
   {
     path: '/budget-calculate',
-    name: 'budget-calculate',
-    component: () => import('@views/BudgetCalculator.vue'),
+    name: 'budgetCalculate',
+    meta: { title: 'Budget Calculate' },
+    component: () => import('@views/budget/Index.vue'),
+  },
+  {
+    path: '/budget-calculate/create',
+    name: 'budgetCalculate.create',
+    component: () => import('@views/budget/Create.vue'),
   },
   {
     path: '/templates',
@@ -27,7 +33,13 @@ const routes = [
     path: '/heads',
     name: 'heads',
     meta: { title: 'Heads' },
-    component: () => import('@views/Heads.vue'),
+    component: () => import('@views/heads/Index.vue'),
+  },
+  {
+    path: '/heads/create',
+    name: 'heads.create',
+    meta: { title: 'Heads' },
+    component: () => import('@views/heads/Create.vue'),
   },
   {
     path: '/departments',

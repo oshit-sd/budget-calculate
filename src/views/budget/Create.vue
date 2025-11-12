@@ -160,7 +160,7 @@
                         member.head_id !== des.id
                       "
                     >
-                      {{ des.head_name }}
+                      {{ des.head_name }} ({{ des.type }})
                     </option>
                   </select>
                 </td>
@@ -443,6 +443,8 @@ export default {
       storageData[slug] = { ...this.formData, slug };
 
       localStorage.setItem(this.storageKey, JSON.stringify(storageData));
+
+      this.$router.push({ name: "budgetCalculate" });
     },
 
     generateSlug(title) {
@@ -518,7 +520,7 @@ export default {
 
     templateInfo(detail, item) {
       let findTemplate = this.templates[this.formData.template_id] || {};
-      let selected = findTemplate?.details.find(
+      let selected = findTemplate?.details?.find(
         (t) => t.id === item.head_id && detail.department_id === t.department_id
       );
       item.per_day_cost = selected ? selected.per_day_cost : 0;

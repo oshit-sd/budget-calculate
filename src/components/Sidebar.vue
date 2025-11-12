@@ -43,8 +43,8 @@
         </router-link>
 
         <router-link
-          :to="{ name: 'budget-calculate' }"
-          :class="sidebarLinkClass('budget-calculate')"
+          :to="{ name: 'budgetCalculate' }"
+          :class="sidebarLinkClass('budgetCalculate')"
           @click="closeSidebar"
         >
           <Calculator class="w-5 h-5" />

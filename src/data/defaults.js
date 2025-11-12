@@ -6,16 +6,16 @@ export const defaultDepartments = [
 ];
 
 export const defaultHeads = [
-    { id: 1, head_name: "Project Manager", department_id: 1, per_day_cost: 1000 },
-    { id: 2, head_name: "Game Designer", department_id: 1, per_day_cost: 800 },
-    { id: 3, head_name: "UI/UX Designer", department_id: 2, per_day_cost: 500 },
-    { id: 4, head_name: "2D Game Artist", department_id: 2, per_day_cost: 700 },
-    { id: 5, head_name: "Spine Animator", department_id: 2, per_day_cost: 500 },
-    { id: 6, head_name: "Technical Lead", department_id: 3, per_day_cost: 2000 },
-    { id: 7, head_name: "Sr. Game Developer", department_id: 3, per_day_cost: 1500 },
-    { id: 8, head_name: "Mid Game Developer", department_id: 3, per_day_cost: 1000 },
-    { id: 9, head_name: "Sr. Backend Developer", department_id: 3, per_day_cost: 1500 },
-    { id: 10, head_name: "Sr. Frontend Developer", department_id: 3, per_day_cost: 1200 },
-    { id: 11, head_name: "Sr. QA Engineer", department_id: 4, per_day_cost: 600 },
-    { id: 12, head_name: "Sr. Sound Engineer", department_id: 4, per_day_cost: 500 },
+    { id: 1, head_name: "Project Manager", department_id: 1, type: 'Lead', per_day_cost: 1000 },
+    { id: 2, head_name: "Game Designer", department_id: 1, type: 'Senior', per_day_cost: 800 },
+    { id: 3, head_name: "UI/UX Designer", department_id: 2, type: 'Senior', per_day_cost: 500 },
+    { id: 4, head_name: "2D Game Artist", department_id: 2, type: 'Mid', per_day_cost: 700 },
+    { id: 5, head_name: "Spine Animator", department_id: 2, type: 'Mid', per_day_cost: 500 },
+    { id: 6, head_name: "Technical Lead", department_id: 3, type: 'Lead', per_day_cost: 2000 },
+    { id: 7, head_name: "Game Developer", department_id: 3, type: 'Senior', per_day_cost: 1500 },
+    { id: 8, head_name: "Game Developer", department_id: 3, type: 'Mid', per_day_cost: 1000 },
+    { id: 9, head_name: "Backend Developer", department_id: 3, type: 'Senior', per_day_cost: 1500 },
+    { id: 10, head_name: "Frontend Developer", department_id: 3, type: 'Senior', per_day_cost: 1200 },
+    { id: 11, head_name: "QA Engineer", department_id: 4, type: 'Senior', per_day_cost: 600 },
+    { id: 12, head_name: "Sound Engineer", department_id: 4, type: 'Senior', per_day_cost: 500 },
 ];

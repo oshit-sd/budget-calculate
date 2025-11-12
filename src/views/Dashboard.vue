@@ -5,7 +5,7 @@
       <h1 class="text-3xl font-bold text-gray-800">Welcome to Estimatica</h1>
 
       <router-link
-        :to="{ name: 'budget-calculate' }"
+        :to="{ name: 'budgetCalculate' }"
         class="b bg-violet-800 text-white px-5 py-2 rounded-xl shadow-lg hover:scale-105 transition transform flex items-center gap-2"
       >
         <Plus class="w-5 h-5" />
@@ -45,6 +45,9 @@
           <thead class="bg-violet-50">
             <tr>
               <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">
+                #
+              </th>
+              <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">
                 Project Name
               </th>
               <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">
@@ -68,6 +71,9 @@
               class="hover:bg-violet-50 transition"
             >
               <td class="px-4 py-2 text-gray-700 font-medium">
+                {{ Object.keys(project).indexOf(index.toString()) + 1 }}
+              </td>
+              <td class="px-4 py-2 text-gray-700 font-medium">
                 {{ project.title }}
               </td>
               <td class="px-4 py-2 text-gray-700">{{ project.total_cost }}</td>
@@ -89,12 +95,18 @@
               <td class="px-4 py-2">
                 <router-link
                   :to="{
-                    name: 'budget-calculate',
+                    name: 'budgetCalculate.create',
                     query: { slug: project.slug },
                   }"
                   class="text-violet-600 hover:underline"
                   >View</router-link
                 >
+              </td>
+            </tr>
+
+            <tr v-if="projects.length === 0">
+              <td colspan="5" class="text-center text-gray-500 py-3 italic">
+                No data available
               </td>
             </tr>
           </tbody>

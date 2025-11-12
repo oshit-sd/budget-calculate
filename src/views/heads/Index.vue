@@ -5,13 +5,13 @@
       <div
         class="flex justify-between items-center border-b border-gray-300 pb-2 mb-4"
       >
-        <h2 class="text-xl font-semibold text-gray-800">Templates</h2>
+        <h2 class="text-xl font-semibold text-gray-800">Heads</h2>
 
         <router-link
-          :to="{ name: 'templates.create' }"
+          :to="{ name: 'heads.create' }"
           class="bg-violet-500 hover:bg-violet-600 text-white px-4 py-2 rounded-lg shadow-md transition-all"
         >
-          + Add Template
+          + Add Head
         </router-link>
       </div>
 
@@ -21,10 +21,19 @@
             <tr class="bg-gray-200 text-slate-800">
               <th class="px-4 py-2 text-left text-sm font-bold uppercase">#</th>
               <th class="px-4 py-2 text-left text-sm font-bold uppercase">
-                Template Name
+                Department Name
               </th>
               <th class="px-4 py-2 text-left text-sm font-bold uppercase">
-                Action
+                Head Name
+              </th>
+              <th class="px-4 py-2 text-left text-sm font-bold uppercase">
+                Type
+              </th>
+              <th class="px-4 py-2 text-left text-sm font-bold uppercase">
+                Per Day Cost
+              </th>
+              <th class="px-4 py-2 text-left text-sm font-bold uppercase">
+                Actions
               </th>
             </tr>
           </thead>
@@ -37,20 +46,37 @@
               <td
                 class="px-4 py-2 text-sm text-gray-700 border border-slate-200"
               >
-                {{ Object.keys(data).indexOf(index.toString()) + 1 }}
+                {{ index + 1 }}
               </td>
-
               <td
                 class="px-4 py-2 text-sm text-gray-700 border border-slate-200"
               >
-                {{ item.template_name }}
+                {{
+                  departments.find((dept) => dept.id === item.department_id)
+                    ?.department_name || ""
+                }}
+              </td>
+              <td
+                class="px-4 py-2 text-sm text-gray-700 border border-slate-200"
+              >
+                {{ item.head_name }}
+              </td>
+              <td
+                class="px-4 py-2 text-sm text-gray-700 border border-slate-200"
+              >
+                {{ item.type }}
+              </td>
+              <td
+                class="px-4 py-2 text-sm text-gray-700 border border-slate-200"
+              >
+                {{ item.per_day_cost }}
               </td>
               <td
                 class="px-4 py-2 text-sm text-gray-700 border border-slate-200"
               >
                 <router-link
                   class="text-blue-600 hover:text-blue-800 font-semibold cursor-pointer"
-                  :to="{ name: 'templates.create', query: { slug: index } }"
+                  :to="{ name: 'heads.create', query: { id: item.id } }"
                 >
                   Edit
                 </router-link>
@@ -76,14 +102,16 @@
 </template>
 
 <script>
+import { defaultDepartments, defaultHeads } from "@/data/defaults";
+
 export default {
-  name: "IndexTemplate",
+  name: "IndexHeads",
 
   data() {
     return {
       data: [],
       departments: [],
-      storageKey: "template_data",
+      storageKey: "heads_data",
     };
   },
 
@@ -97,21 +125,36 @@ export default {
           console.error("Error parsing localStorage data", e);
         }
       }
-    },
 
-    deleteItem(key) {
-      if (confirm("Are you sure you want to delete this record?")) {
-        delete this.data[key];
-        this.saveData();
+      // If empty, preload default departments
+      if (!this.data || this.data.length === 0) {
+        this.data = [...defaultHeads];
+        localStorage.setItem(this.storageKey, JSON.stringify(this.data));
       }
     },
 
-    saveData() {
-      localStorage.setItem(this.storageKey, JSON.stringify(this.data));
+    deleteItem(index) {
+      if (confirm("Are you sure you want to delete this record?")) {
+        this.data.splice(index, 1);
+        localStorage.setItem(this.storageKey, JSON.stringify(this.data));
+      }
+    },
+
+    loadDepartments() {
+      const stored = localStorage.getItem("department_data");
+      if (stored) {
+        try {
+          this.departments = JSON.parse(stored);
+        } catch (e) {
+          console.error("Error parsing departments", e);
+          this.departments = [...defaultDepartments];
+        }
+      }
     },
   },
 
   mounted() {
+    this.loadDepartments();
     this.getData();
   },
 };
