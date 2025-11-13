@@ -32,7 +32,7 @@
               <th class="px-4 py-2 text-left text-sm font-bold uppercase">
                 Created On
               </th>
-              <th class="px-4 py-2 text-left text-sm font-bold uppercase">
+              <th class="px-4 py-2 text-sm font-bold uppercase text-center">
                 Actions
               </th>
             </tr>
@@ -43,14 +43,24 @@
               :key="index"
               class="hover:bg-violet-50 transition"
             >
-              <td class="px-4 py-2 text-gray-700 font-medium">
+              <td
+                class="px-4 py-2 text-sm text-gray-700 border border-slate-200"
+              >
                 {{ Object.keys(data).indexOf(index.toString()) + 1 }}
               </td>
-              <td class="px-4 py-2 text-gray-700 font-medium">
+              <td
+                class="px-4 py-2 text-sm text-gray-700 border border-slate-200"
+              >
                 {{ item.title }}
               </td>
-              <td class="px-4 py-2 text-gray-700">{{ item.total_cost }}</td>
-              <td class="px-4 py-2">
+              <td
+                class="px-4 py-2 text-sm text-gray-700 border border-slate-200"
+              >
+                {{ item.total_cost }}
+              </td>
+              <td
+                class="px-4 py-2 text-sm text-gray-700 border border-slate-200"
+              >
                 <span
                   :class="{
                     'bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold':
@@ -64,8 +74,14 @@
                   {{ item.status }}
                 </span>
               </td>
-              <td class="px-4 py-2 text-gray-500">{{ item.created_at }}</td>
-              <td class="px-4 py-2">
+              <td
+                class="px-4 py-2 text-sm text-gray-700 border border-slate-200"
+              >
+                {{ item.created_at }}
+              </td>
+              <td
+                class="px-4 py-2 text-sm text-gray-700 border border-slate-200 text-center"
+              >
                 <router-link
                   :to="{
                     name: 'budgetCalculate.create',

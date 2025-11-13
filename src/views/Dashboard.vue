@@ -44,22 +44,20 @@
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-violet-50">
             <tr>
-              <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">
-                #
-              </th>
-              <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">
+              <th class="px-4 py-2 text-left text-sm font-bold uppercase">#</th>
+              <th class="px-4 py-2 text-left text-sm font-bold uppercase">
                 Project Name
               </th>
-              <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">
+              <th class="px-4 py-2 text-left text-sm font-bold uppercase">
                 Budget
               </th>
-              <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">
+              <th class="px-4 py-2 text-left text-sm font-bold uppercase">
                 Status
               </th>
-              <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">
+              <th class="px-4 py-2 text-left text-sm font-bold uppercase">
                 Created On
               </th>
-              <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">
+              <th class="px-4 py-2 text-left text-sm font-bold uppercase">
                 Actions
               </th>
             </tr>
@@ -70,13 +68,15 @@
               :key="index"
               class="hover:bg-violet-50 transition"
             >
-              <td class="px-4 py-2 text-gray-700 font-medium">
+              <td class="px-4 py-2 text-gray-700 text-sm">
                 {{ Object.keys(project).indexOf(index.toString()) + 1 }}
               </td>
-              <td class="px-4 py-2 text-gray-700 font-medium">
+              <td class="px-4 py-2 text-gray-700 text-sm">
                 {{ project.title }}
               </td>
-              <td class="px-4 py-2 text-gray-700">{{ project.total_cost }}</td>
+              <td class="px-4 py-2 text-gray-700 text-sm">
+                {{ project.total_cost }}
+              </td>
               <td class="px-4 py-2">
                 <span
                   :class="{
